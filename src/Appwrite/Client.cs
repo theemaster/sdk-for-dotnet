@@ -236,7 +236,6 @@ namespace Appwrite
                 .FirstOrDefault() ?? string.Empty;
 
             var isJson = contentType.Contains("application/json");
-            var isBytes = contentType.Contains("application/octet-stream");
 
             if (code >= 400) {
                 var message = await response.Content.ReadAsStringAsync();
@@ -263,13 +262,9 @@ namespace Appwrite
 
                 return (dict as T)!;
             }
-            else if (isBytes)
-            {
-                return ((await response.Content.ReadAsByteArrayAsync()) as T)!;
-            }
             else
             {
-                return default!;
+                return ((await response.Content.ReadAsByteArrayAsync()) as T)!;
             }
         }
 
